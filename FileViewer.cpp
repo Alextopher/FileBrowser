@@ -6,7 +6,7 @@ using namespace std;
 
 void FileViewer::display()
 {
-    const string long_separator(50, '-');
+    const string long_separator(window_width_ + 7, '-');
     const string short_separator(8, '-');
 
     system(clear_command);
@@ -51,6 +51,7 @@ void FileViewer::execute_command(char command, bool & done)
             break;
         }
 
+        // Homework A4 solution
         case 's': {
             cout << "search string: ";
             string search_str;
@@ -59,7 +60,7 @@ void FileViewer::execute_command(char command, bool & done)
             bool success = buffer_.move_to_searched_string(search_str);
 
             if (!success) {
-                error_message_ = "string " + search_str + " was not found";
+                error_message_ = "string \"" + search_str + "\" was not found";
             }
             break;
         }
@@ -75,9 +76,12 @@ void FileViewer::run()
 {
     cout << "Window height? ";
     cin >> window_height_;
+    cout << "Window width? ";
+    cin >> window_width_;
     cin.get();  // '\n'
     cout << '\n';
     buffer_.set_window_height(window_height_);
+    buffer_.set_window_width(window_width_);
 
     bool done = false;
     while (!done) {

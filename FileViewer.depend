@@ -72,22 +72,24 @@
 1571333884 source:c:\users\christopher\documents\school\fileviewer\test.cpp
 	"FileViewer.h"
 
-1571333884 c:\users\christopher\documents\school\fileviewer\fileviewer.h
+1572458074 c:\users\christopher\documents\school\fileviewer\fileviewer.h
 	<cstdlib>
 	<iostream>
 	<string>
 	"Buffer.h"
 
-1571334442 c:\users\christopher\documents\school\fileviewer\buffer.h
+1572468937 c:\users\christopher\documents\school\fileviewer\buffer.h
 	<fstream>
 	<iomanip>
 	<iostream>
 	<string>
 	<vector>
+	<sstream>
+	<cstdio>
 
-1571337250 source:c:\users\christopher\documents\school\fileviewer\buffer.cpp
+1572468171 source:c:\users\christopher\documents\school\fileviewer\buffer.cpp
 	"Buffer.h"
 
-1571336900 source:c:\users\christopher\documents\school\fileviewer\fileviewer.cpp
+1572468190 source:c:\users\christopher\documents\school\fileviewer\fileviewer.cpp
 	"FileViewer.h"
 
