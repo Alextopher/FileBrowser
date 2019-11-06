@@ -65,6 +65,39 @@ void FileViewer::execute_command(char command, bool & done)
             break;
         }
 
+        case 'g': {
+            cout << "link number: ";
+            string link_str;
+            cin >> link_str;
+            istringstream in(link_str);
+            unsigned int link_num;
+            in >> link_num;
+
+            if(!in)
+            {
+                error_message_ = "browser given invalid argument";
+                break;
+            }
+
+            bool success = buffer_.go(link_num);
+
+            if (!success){
+                error_message_ = "attempted to access a nonexistent directory";
+            }
+            break;
+        }
+
+        case 'b': {
+
+            bool success = buffer_.step_back();
+
+            if (!success){
+                error_message_ = "no previous history";
+            }
+            break;
+
+        }
+
         case 'q': {
             done = true;
             break;

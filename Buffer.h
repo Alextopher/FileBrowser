@@ -10,6 +10,7 @@
 #include <vector>
 #include <sstream>
 #include <cstdio>
+#include <stack>
 
 class Buffer
 {
@@ -22,6 +23,8 @@ public:
     bool open(const std::string & file_name);
     void set_window_height(int h) { window_height_ = h; }
     void set_window_width(int w) { window_width_ = w; }
+    bool go(const unsigned int & x);
+    bool step_back();
 
 private:
     std::string make_anchor(const std::string & anchor, const std::string & filename, const std::string & text);
@@ -35,6 +38,8 @@ private:
     int window_width_;
 
     std::vector<std::string> anchors_;
+    std::stack<std::string> history_;
+
 };
 
 inline void Buffer::move_to_next_page()

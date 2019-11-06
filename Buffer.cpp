@@ -38,6 +38,12 @@ bool Buffer::open(const string & new_file_name)
     this -> format();
 
     file_name_ = new_file_name;
+
+    if(history_.empty())
+    {
+       history_.push(file_name_);
+    }
+
     ix_top_line_ = 0;
     return true;
 }
@@ -48,19 +54,26 @@ void Buffer::format()
     for (int i = 0; i < v_words_.size(); i++) {
         string word = v_words_[i];
 
-        if(word == string("<a")) {
-            word = this -> make_anchor(v_words_[i], v_words_[i + 1], v_words_[i + 2]);
+        if(word == string("<a"))
+        {
+            word = make_anchor(v_words_[i], v_words_[i + 1], v_words_[i + 2]);
             i += 2;
-        } else if(word == string("<p>")) {
+        }
+        else if(word == string("<p>"))
+        {
             v_lines_.push_back(f_line);
             f_line = "";
             v_lines_.push_back(f_line); // Blank line
             word = "";
-        } else if(word == string("<br>")) {
+        }
+        else if(word == string("<br>"))
+        {
             v_lines_.push_back(f_line);
             f_line = "";
             word = "";
-        } else {
+        }
+        else
+        {
             word += " ";
         }
 
@@ -96,3 +109,28 @@ bool Buffer::move_to_searched_string(const string & str)
     return false;
 }
 
+bool Buffer::go(const unsigned int & location)
+{
+    if(!(location < (anchors_.size() + 1)))
+    {
+        return false;
+    }
+
+    history_.push(anchors_[location-1]);
+    file_name_ = anchors_[location-1];
+    open(file_name_);
+    return true;
+}
+
+bool Buffer::step_back()
+{
+    if(history_.size() == 1)
+    {
+        return false;
+    }
+
+    history_.pop();
+    file_name_ = history_.top();
+    open(file_name_);
+    return true;
+}
