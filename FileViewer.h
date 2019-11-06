@@ -25,6 +25,10 @@ private:
     int window_height_;
     int window_width_;
     std::string error_message_;
+
+    std::stack<std::string> history_;
+    bool go(const unsigned int & location);
+    bool step_back();
 };
 
 #endif

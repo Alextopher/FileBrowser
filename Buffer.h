@@ -25,6 +25,7 @@ public:
     void set_window_width(int w) { window_width_ = w; }
     bool go(const unsigned int & x);
     bool step_back();
+    std::string get_anchor(unsigned int location);
 
 private:
     std::string make_anchor(const std::string & anchor, const std::string & filename, const std::string & text);
@@ -38,8 +39,6 @@ private:
     int window_width_;
 
     std::vector<std::string> anchors_;
-    std::stack<std::string> history_;
-
 };
 
 inline void Buffer::move_to_next_page()

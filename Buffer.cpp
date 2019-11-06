@@ -22,6 +22,7 @@ bool Buffer::open(const string & new_file_name)
 
     v_words_.clear();
     v_lines_.clear();
+    anchors_.clear();
     // Note: the vector is cleared only after we know the file
     // opened successfully.
 
@@ -30,7 +31,6 @@ bool Buffer::open(const string & new_file_name)
         istringstream in = istringstream(line);
         string word;
         while (in >> word) {
-            cout << word << ",";
             v_words_.push_back(word);
         }
     }
@@ -38,11 +38,6 @@ bool Buffer::open(const string & new_file_name)
     this -> format();
 
     file_name_ = new_file_name;
-
-    if(history_.empty())
-    {
-       history_.push(file_name_);
-    }
 
     ix_top_line_ = 0;
     return true;
@@ -97,6 +92,16 @@ string Buffer::make_anchor(const string & anchor, const string & filename, const
     return ss.str();
 }
 
+std::string Buffer::get_anchor(unsigned int location)
+{
+    cout << anchors_.size();
+    if (--location > anchors_.size()) {
+        return "";
+    }
+
+    return anchors_[location];
+}
+
 // Homework A4 solution
 bool Buffer::move_to_searched_string(const string & str)
 {
@@ -109,28 +114,3 @@ bool Buffer::move_to_searched_string(const string & str)
     return false;
 }
 
-bool Buffer::go(const unsigned int & location)
-{
-    if(!(location < (anchors_.size() + 1)))
-    {
-        return false;
-    }
-
-    history_.push(anchors_[location-1]);
-    file_name_ = anchors_[location-1];
-    open(file_name_);
-    return true;
-}
-
-bool Buffer::step_back()
-{
-    if(history_.size() == 1)
-    {
-        return false;
-    }
-
-    history_.pop();
-    file_name_ = history_.top();
-    open(file_name_);
-    return true;
-}

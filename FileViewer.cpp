@@ -25,7 +25,7 @@ void FileViewer::display()
     cout << long_separator << endl;
     buffer_.display();
     cout << long_separator << endl;
-    cout << "  next  previous  open  search  quit\n";
+    cout << "  next  previous  open  search  back  go  quit\n";
     cout << short_separator << endl;
 }
 
@@ -41,6 +41,9 @@ void FileViewer::execute_command(char command, bool & done)
             cout << "file name: ";
             string file_name;
             getline(cin, file_name);
+
+            history_.push(file_name);
+
             if (!buffer_.open(file_name))
                 error_message_ = "Could not open " + file_name;
             break;
@@ -79,23 +82,30 @@ void FileViewer::execute_command(char command, bool & done)
                 break;
             }
 
-            bool success = buffer_.go(link_num);
+            string anchor = buffer_.get_anchor(link_num);
 
-            if (!success){
-                error_message_ = "attempted to access a nonexistent directory";
+            if (anchor == "" || !buffer_.open(anchor)) {
+                error_message_ = "anchor could not be found";
+                break;
             }
+
+            history_.push(anchor);
             break;
         }
 
         case 'b': {
-
-            bool success = buffer_.step_back();
-
-            if (!success){
+            if (history_.size() == 1)
+            {
                 error_message_ = "no previous history";
+                break;
             }
-            break;
 
+            history_.pop();
+            if (!buffer_.open(history_.top())) {
+                error_message_ = "file \"" + history_.top() + "\" could not be found";
+            }
+
+            break;
         }
 
         case 'q': {
@@ -130,5 +140,6 @@ void FileViewer::run()
         cout << endl;
     }
 }
+
 
 
