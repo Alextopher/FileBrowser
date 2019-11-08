@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1573246243 source:c:\users\christopher\documents\school\filebrowser\test.cpp
+	"FileBrowser.h"
+
+1573246077 c:\users\christopher\documents\school\filebrowser\filebrowser.h
+	<cstdlib>
+	<iostream>
+	<string>
+	"Buffer.h"
+
+1573247641 c:\users\christopher\documents\school\filebrowser\buffer.h
+	<fstream>
+	<iomanip>
+	<iostream>
+	<string>
+	<vector>
+	<sstream>
+	<cstdio>
+	<stack>
+
+1573247696 source:c:\users\christopher\documents\school\filebrowser\buffer.cpp
+	"Buffer.h"
+
+1573248279 source:c:\users\christopher\documents\school\filebrowser\filebrowser.cpp
+	"FileBrowser.h"
+

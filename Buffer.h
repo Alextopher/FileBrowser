@@ -17,28 +17,33 @@ class Buffer
 public:
     void display() const;
     const std::string & file_name() const { return file_name_; }
+
     void move_to_next_page();
     void move_to_previous_page();
     bool move_to_searched_string(const std::string & str);
-    bool open(const std::string & file_name);
+
     void set_window_height(int h) { window_height_ = h; }
     void set_window_width(int w) { window_width_ = w; }
+
+    bool open(const std::string & file_name);
     bool go(const unsigned int & x);
     bool step_back();
+
     std::string get_anchor(unsigned int location);
 
 private:
-    std::string make_anchor(const std::string & anchor, const std::string & filename, const std::string & text);
-    void format();
+    std::string file_name_;
 
     std::vector<std::string> v_lines_;
     std::vector<std::string> v_words_;
+
     int ix_top_line_ = 0;
-    std::string file_name_;
     int window_height_;
     int window_width_;
 
     std::vector<std::string> anchors_;
+    std::string make_anchor(const std::string & filename, const std::string & text);
+    void format();
 };
 
 inline void Buffer::move_to_next_page()

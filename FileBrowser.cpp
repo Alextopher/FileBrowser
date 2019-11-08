@@ -1,10 +1,10 @@
-// FileViewer.cpp
+// FileBrowser.cpp
 
-#include "FileViewer.h"
+#include "FileBrowser.h"
 
 using namespace std;
 
-void FileViewer::display()
+void FileBrowser::display()
 {
     const string long_separator(window_width_ + 7, '-');
     const string short_separator(8, '-');
@@ -29,7 +29,7 @@ void FileViewer::display()
     cout << short_separator << endl;
 }
 
-void FileViewer::execute_command(char command, bool & done)
+void FileBrowser::execute_command(char command, bool & done)
 {
     switch (command) {
         case 'n': {
@@ -42,10 +42,12 @@ void FileViewer::execute_command(char command, bool & done)
             string file_name;
             getline(cin, file_name);
 
-            history_.push(file_name);
-
-            if (!buffer_.open(file_name))
+            if (!buffer_.open(file_name)) {
                 error_message_ = "Could not open " + file_name;
+                break;
+            }
+
+            history_.push(file_name);
             break;
         }
 
@@ -70,14 +72,13 @@ void FileViewer::execute_command(char command, bool & done)
 
         case 'g': {
             cout << "link number: ";
-            string link_str;
-            cin >> link_str;
-            istringstream in(link_str);
-            unsigned int link_num;
-            in >> link_num;
 
-            if(!in)
+            int link_num;
+            cin >> link_num;
+
+            if(cin.fail())
             {
+                cin.clear();
                 error_message_ = "browser given invalid argument";
                 break;
             }
@@ -115,7 +116,7 @@ void FileViewer::execute_command(char command, bool & done)
     }
 }
 
-void FileViewer::run()
+void FileBrowser::run()
 {
     cout << "Window height? ";
     cin >> window_height_;

@@ -1,7 +1,7 @@
-// FileViewer.h
+// FileBrowser.h
 
-#ifndef _FileViewer_h_
-#define _FileViewer_h_
+#ifndef _FileBrowser_h_
+#define _FileBrowser_h_
 
 #include <cstdlib>
 #include <iostream>
@@ -12,7 +12,7 @@
 const char clear_command[] = "cls"; // for Windows
 //const char clear_command[] = "clear"; // for Linux and possibly Mac's
 
-class FileViewer
+class FileBrowser
 {
 public:
     void run();
@@ -27,8 +27,6 @@ private:
     std::string error_message_;
 
     std::stack<std::string> history_;
-    bool go(const unsigned int & location);
-    bool step_back();
 };
 
 #endif

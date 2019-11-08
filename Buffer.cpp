@@ -23,9 +23,9 @@ bool Buffer::open(const string & new_file_name)
     v_words_.clear();
     v_lines_.clear();
     anchors_.clear();
-    // Note: the vector is cleared only after we know the file
-    // opened successfully.
+    // Note: the vectorS are cleared only after we know the file opened successfully.
 
+    // Read words into vector
     string line;
     while (getline(file, line)) {
         istringstream in = istringstream(line);
@@ -35,10 +35,10 @@ bool Buffer::open(const string & new_file_name)
         }
     }
 
+    // Format words into lines
     this -> format();
 
     file_name_ = new_file_name;
-
     ix_top_line_ = 0;
     return true;
 }
@@ -49,20 +49,25 @@ void Buffer::format()
     for (int i = 0; i < v_words_.size(); i++) {
         string word = v_words_[i];
 
+        // Words that are tags have different behavior
         if(word == string("<a"))
         {
-            word = make_anchor(v_words_[i], v_words_[i + 1], v_words_[i + 2]);
+            // Create anchor out of next 2 words
+            word = make_anchor(v_words_[i + 1], v_words_[i + 2]);
             i += 2;
         }
         else if(word == string("<p>"))
         {
+            // Start new line
             v_lines_.push_back(f_line);
             f_line = "";
-            v_lines_.push_back(f_line); // Blank line
+            // Add a blank line
+            v_lines_.push_back(f_line);
             word = "";
         }
         else if(word == string("<br>"))
         {
+            // Start new line
             v_lines_.push_back(f_line);
             f_line = "";
             word = "";
@@ -72,6 +77,7 @@ void Buffer::format()
             word += " ";
         }
 
+        // Ensure line length < window_width_
         if (f_line.size() + word.size() > window_width_) {
             v_lines_.push_back(f_line);
             f_line = "";
@@ -79,11 +85,12 @@ void Buffer::format()
 
         f_line += word;
     }
+
     // Push the last line
     v_lines_.push_back(f_line);
 }
 
-string Buffer::make_anchor(const string & anchor, const string & filename, const string & text)
+string Buffer::make_anchor(const string & filename, const string & text)
 {
     anchors_.push_back(filename);
     ostringstream ss;
@@ -105,7 +112,7 @@ std::string Buffer::get_anchor(unsigned int location)
 // Homework A4 solution
 bool Buffer::move_to_searched_string(const string & str)
 {
-    for (int i = ix_top_line_; i < v_lines_.size(); i++) {
+    for (int i = ix_top_line_ + 1; i < v_lines_.size(); i++) {
         if (v_lines_[i].find(str) != string::npos) {
             ix_top_line_ = i;
             return true;

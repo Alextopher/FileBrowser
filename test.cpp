@@ -1,12 +1,12 @@
 // test.cpp
 //
-// Launches the text editor
+// Launches the text browser
 
-#include "FileViewer.h"
+#include "FileBrowser.h"
 
 int main()
 {
-    FileViewer viewer;
+    FileBrowser viewer;
     viewer.run();
 
     return 0;
